@@ -9,6 +9,6 @@ export const setError = (err) => {
 
 export const removeError = () => {
     return {
-        type: types.removeError,
+        type: types.uiRemoveError,
     }
 }

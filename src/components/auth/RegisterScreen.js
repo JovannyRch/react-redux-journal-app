@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
+import { useDispatch, useSelector } from "react-redux"
 import validator from "validator";
+import { removeError, setError } from '../../actions/ui';
 
 export const RegisterScreen = () => {
-
+    const dispatch = useDispatch();
+    const { msg } = useSelector(state => state.ui);
+    console.log(msg);
     const [formValues, handleInputChange] = useForm({
         name: "Jovanny",
         email: "jovannyrch@gmail.com",
@@ -20,17 +24,19 @@ export const RegisterScreen = () => {
 
     const isFormValid = () => {
         if (name.trim().length === 0) {
+            dispatch(setError("Name is required"));
             return false;
         }
-        if (validator.isEmail(email)) {
-
+        if (!validator.isEmail(email)) {
+            dispatch(setError("Valid email is required"));
             return false;
         }
 
         if (password !== password2) {
+            dispatch(setError("Both passwords have to be equal"));
             return false;
         }
-
+        dispatch(removeError());
         return true;
     }
 
@@ -40,6 +46,13 @@ export const RegisterScreen = () => {
             <h3 className="auth__title">Register</h3>
 
             <form onSubmit={handleRegister} >
+
+                {
+                    msg &&
+                    <div className="auth__alert-error">
+                        {msg}
+                    </div>
+                }
 
                 <input
                     type="text"
