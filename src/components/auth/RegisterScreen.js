@@ -4,21 +4,22 @@ import { useForm } from '../../hooks/useForm';
 import { useDispatch, useSelector } from "react-redux"
 import validator from "validator";
 import { removeError, setError } from '../../actions/ui';
+import { starRegisterWithEmailPasswordName } from '../../actions/auth';
 
 export const RegisterScreen = () => {
     const dispatch = useDispatch();
     const { msg } = useSelector(state => state.ui);
-    console.log(msg);
+
     const [formValues, handleInputChange] = useForm({
         name: "Jovanny",
         email: "jovannyrch@gmail.com",
-        password: "123",
-        password2: "123",
+        password: "123qwe",
+        password2: "123qwe",
     });
     const handleRegister = (event) => {
         event.preventDefault();
         if (isFormValid()) {
-            console.log("Login correcto");
+            dispatch(starRegisterWithEmailPasswordName(email, name, password));
         }
     }
 
